@@ -11,6 +11,7 @@ use React\Http\Message\ServerRequest;
 use Tbd\Main\Products\ProductLookupDataProviderAbstraction;
 use Tbd\Main\Products\ProductLookupStandardDataProvider;
 use Tbd\Main\Products\ProductRepositoryInterface;
+use Tbd\Main\Recommendations\RecommendationsServiceInterface;
 
 class ProductLookupControllerTest extends TestCase
 {

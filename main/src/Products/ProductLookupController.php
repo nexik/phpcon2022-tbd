@@ -8,12 +8,17 @@ use React\Http\Message\Response;
 class ProductLookupController
 {
     private $repository;
-    private $provider;
+    private ProductLookupDataProviderAbstraction $provider;
 
     public function __construct(ProductRepositoryInterface $repository, ProductLookupDataProviderAbstraction $provider)
     {
         $this->repository = $repository;
         $this->provider = $provider;
+    }
+
+    public function getDataProvider(): ProductLookupDataProviderAbstraction
+    {
+        return $this->provider;
     }
 
     public function __invoke(ServerRequestInterface $request)
