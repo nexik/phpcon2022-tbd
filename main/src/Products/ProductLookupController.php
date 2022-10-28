@@ -10,7 +10,7 @@ class ProductLookupController
     private $repository;
     private $provider;
 
-    public function __construct(ProductRepositoryInterface $repository, ProductLookupStandardDataProvider $provider)
+    public function __construct(ProductRepositoryInterface $repository, ProductLookupDataProviderAbstraction $provider)
     {
         $this->repository = $repository;
         $this->provider = $provider;
@@ -26,6 +26,7 @@ class ProductLookupController
                 "Product not found\n"
             )->withStatus(Response::STATUS_NOT_FOUND);
         }
+
         $data = $this->provider->getData($product);
 
         return Response::json($data);

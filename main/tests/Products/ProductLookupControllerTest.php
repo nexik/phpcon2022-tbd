@@ -8,6 +8,7 @@ use Tbd\Main\Products\ProductLookupController;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use React\Http\Message\ServerRequest;
+use Tbd\Main\Products\ProductLookupDataProviderAbstraction;
 use Tbd\Main\Products\ProductLookupStandardDataProvider;
 use Tbd\Main\Products\ProductRepositoryInterface;
 
@@ -28,7 +29,7 @@ class ProductLookupControllerTest extends TestCase
         $stub->method('findProduct')
             ->will($this->returnValueMap([["3", $product]]));
 
-        $controller = new ProductLookupController($stub, new ProductLookupStandardDataProvider());
+        $controller = new ProductLookupController($stub, $this->getProvider());
 
         $response = $controller($request);
 
@@ -59,7 +60,7 @@ class ProductLookupControllerTest extends TestCase
         $stub->method('findProduct')
             ->will($this->returnValueMap([["3", $product]]));
 
-        $controller = new ProductLookupController($stub, new ProductLookupStandardDataProvider());
+        $controller = new ProductLookupController($stub, $this->getProvider());
 
         $recoStub = $this->createMock(RecommendationsServiceInterface::class);
         $recoStub->method('getRecommendations')
@@ -93,7 +94,7 @@ class ProductLookupControllerTest extends TestCase
         $stub->method('findProduct')
             ->will($this->returnValueMap([["3", null]]));
 
-        $controller = new ProductLookupController($stub, new ProductLookupStandardDataProvider());
+        $controller = new ProductLookupController($stub, $this->getProvider());
 
         $response = $controller($request);
 
@@ -103,5 +104,10 @@ class ProductLookupControllerTest extends TestCase
 
         $output='Product not found';
         $this->assertEquals($output, (string) trim($response->getBody()));
+    }
+
+    private function getProvider()
+    {
+        return new ProductLookupDataProviderAbstraction();
     }
 }
