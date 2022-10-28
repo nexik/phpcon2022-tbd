@@ -4,6 +4,7 @@ namespace Tbd\Main\Products;
 
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
+
 class ProductLookupController
 {
     private $repository;
