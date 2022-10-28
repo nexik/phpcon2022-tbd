@@ -8,10 +8,12 @@ use React\Http\Message\Response;
 class ProductLookupController
 {
     private $repository;
+    private $provider;
 
-    public function __construct(ProductRepositoryInterface $repository)
+    public function __construct(ProductRepositoryInterface $repository, ProductLookupStandardDataProvider $provider)
     {
         $this->repository = $repository;
+        $this->provider = $provider;
     }
 
     public function __invoke(ServerRequestInterface $request)
@@ -29,6 +31,7 @@ class ProductLookupController
             "description" => $product->description,
             "price" => $product->price,
         ];
+        $data = $this->provider->getData($product);
 
         return Response::json($data);
     }
