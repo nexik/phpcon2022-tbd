@@ -18,22 +18,15 @@ class ProductsListController
     public function __invoke(ServerRequestInterface $request)
     {
         $products = $this->repository->listProducts();
-
         $data = [];
-        foreach($products as $product) {
-            $values = [
+
+        foreach ($products as $product) {
+            $data[] = [
                 "id" => $product->id,
-                "name" => $product->title
+                "name" => $product->title,
+                'description' => $product->description,
+                'price' => $product->price,
             ];
-
-            if (FeatureFlag::isEnabled('show_product_details_on_list')) {
-                $values += [
-                    'description' => $product->description,
-                    'price' => $product->price,
-                ];
-            }
-
-            $data[] = $values;
         }
 
         return Response::json($data);
