@@ -4,6 +4,7 @@ namespace Tbd\Main\Products;
 
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
+use Tbd\Main\FeatureFlags\FeatureFlag;
 
 class ProductsListController
 {
@@ -20,10 +21,19 @@ class ProductsListController
 
         $data = [];
         foreach($products as $product) {
-            $data[] = [
+            $values = [
                 "id" => $product->id,
                 "name" => $product->title
             ];
+
+            if (FeatureFlag::isEnabled('show_product_details_on_list')) {
+                $values += [
+                    'description' => $product->description,
+                    'price' => $product->price,
+                ];
+            }
+
+            $data[] = $values;
         }
 
         return Response::json($data);
